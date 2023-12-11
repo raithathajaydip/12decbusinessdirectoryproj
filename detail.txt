@@ -1,0 +1,30 @@
+npx create-react -app froentend-business directory
+npm install react-router-dom
+npm install react-bootstrap bootstrap
+
+pages
+	Home
+		1 Header
+			1.1	Header Navigation
+		2 Main 
+			2.1 Business Category List
+				2.1.1 Sub Business Category List
+		
+		3 Footer
+
+		Detail Page
+			1 Business Name
+			2 Business Logo
+			3 Business Address
+			4 Business Phone Number	
+		
+		Login Page
+		Registraction Page
+			http://localhost/auth/local/register
+
+Backend  -strapi
+	npx create-strapi-app@latest backend-business-directory
+	npm run strapi install documentation
+
+?populate=* get image from api ==pass in qwery string
+
