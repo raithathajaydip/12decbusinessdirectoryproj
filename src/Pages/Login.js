@@ -4,8 +4,8 @@ import { Button, Form } from 'react-bootstrap'
 export default function Login() {
   return (
         <>
+              <h1 className='text-center'>Login Page</h1>
              <Form className='col-sm-6 offset-3'>
-                <h1 className='text-center'>Login</h1>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" />
