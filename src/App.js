@@ -6,6 +6,7 @@ import Register from './Pages/Register'
 import Home from './Pages/Home'
 import NotFound from './Pages/NotFound'
 import Layout from './component/ui/Layout'
+import BusinessRegister from './Pages/BusinessRegister'
 
 export default function App() {
   return (
@@ -17,10 +18,13 @@ export default function App() {
                 <Route path='detail' element={<Detail/>}></Route>
                 <Route path='login' element={<Login/>}></Route>
                 <Route path='register' element={<Register/>}></Route>
+                {
+                  window.localStorage.getItem('jwttoken') !== null &&
+                  <Route path='business_register' element={<BusinessRegister/>}></Route>
+                }
                 </Route>
                 <Route path='*' element={<NotFound/>}></Route>
-            </Routes>
-            
+            </Routes>    
         </BrowserRouter>
     </div>
   )

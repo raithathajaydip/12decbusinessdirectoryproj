@@ -28,3 +28,13 @@ Backend  -strapi
 
 ?populate=* get image from api ==pass in qwery string
 
+Business Directory
+	Country
+		States
+			cities
+				Business A
+				Business B
+			Rajkot
+				Gcb Intotech ->Softwere Education
+				Gcb Education ->Education Institute
+
