@@ -37,6 +37,7 @@ export default function Navigation() {
                   <Link to="/register" className="nav-link">
                     Register
                   </Link>
+                 
                 </>
               )}
               {window.localStorage.getItem("jwttoken") !== null && (
@@ -49,6 +50,7 @@ export default function Navigation() {
                   >
                     Logout
                   </Nav.Link>
+                  <Link to="/business_register" className="nav-link">Register Business</Link>
                 </>
               )}
             </Nav>
