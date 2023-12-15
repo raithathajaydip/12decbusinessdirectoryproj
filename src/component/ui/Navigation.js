@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
-import Logo from "../../logo.svg";
 import { Link } from "react-router-dom";
+import URL from "../../helper/url";
+
 export default function Navigation() {
+  //2.1 Hooks Area
+  const [logo,setLogo] = useState('');
+
+    useEffect(()=>{
+      fetch(`http://localhost:1337/api/website?populate=*`,{})
+      .then((res)=>{
+          return res.json();
+      })
+      .then((data)=>{
+          console.log("Logodata",data.data.attributes.logo.data.attributes.url);
+          setLogo(data.data.attributes.logo.data.attributes.url);
+      })
+      .catch((error)=>{
+         return error;
+      })
+    },[]);
   const myLogout = () => {
     window.localStorage.removeItem("jwttoken");
     window.location.href = "/login";
@@ -13,7 +30,7 @@ export default function Navigation() {
         <Container fluid>
           <Navbar.Brand href="#">
             <img
-              src={Logo}
+              src={`${URL}${logo}`}
               width="100"
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
