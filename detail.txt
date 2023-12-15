@@ -37,4 +37,8 @@ Business Directory
 			Rajkot
 				Gcb Intotech ->Softwere Education
 				Gcb Education ->Education Institute
+Status Code 403 = Unauthorized/forbidden
+
+1 Protect the Authenticated page direct access
+	if someone is trying to access the authencted page without  token the we will redirect login page
 
