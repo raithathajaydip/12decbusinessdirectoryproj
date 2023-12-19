@@ -1,11 +1,12 @@
 import React from "react";
-import { BrowserRouter, Route, Routes, redirect } from "react-router-dom";
+import { BrowserRouter, Route, Routes} from "react-router-dom";
 import Detail from "./Pages/Detail";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Home from "./Pages/Home";
 import Layout from "./component/ui/Layout";
 import BusinessRegister from "./Pages/BusinessRegister";
+import Searchfilter from "./Pages/Searchfilter";
 
 export default function App() {
   if (window.localStorage.getItem("jwttoken") === null) {
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="detail" element={<Detail />}></Route>
             <Route path="login" element={<Login />}></Route>
             <Route path="register" element={<Register />}></Route>
+            <Route path="search" element={<Searchfilter/>}></Route>
             <Route
               path="business_register"
               element={<BusinessRegister />}

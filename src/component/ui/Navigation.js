@@ -1,25 +1,41 @@
 import React, { useEffect, useState } from "react";
+
 import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import URL from "../../helper/url";
 
 export default function Navigation() {
   //2.1 Hooks Area
-  const [logo,setLogo] = useState('');
 
-    useEffect(()=>{
-      fetch(`http://localhost:1337/api/website?populate=*`,{})
-      .then((res)=>{
-          return res.json();
+  const [logo, setLogo] = useState("");
+  const [address, setAddress] = useState("");
+  // Function defination Area
+  const directLocation = (e) => {
+    e.preventDefault();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  };
+  const showPosition = (position) => {
+    // setAddress( "Latitude: " + position.coords.latitude +
+    // "<br>Longitude: " + position.coords.longitude);
+    // setAddress(`Latitue: ${position.coords.latitude} Longitute:${position.coords.longitude}`);
+
+    setAddress("Pntc 12,floor");
+  };
+  useEffect(() => {
+    fetch(`http://localhost:1337/api/website?populate=*`, {})
+      .then((res) => {
+        return res.json();
       })
-      .then((data)=>{
-          console.log("Logodata",data.data.attributes.logo.data.attributes.url);
-          setLogo(data.data.attributes.logo.data.attributes.url);
+      .then((data) => {
+        console.log("Logodata", data.data.attributes.logo.data.attributes.url);
+        setLogo(data.data.attributes.logo.data.attributes.url);
       })
-      .catch((error)=>{
-         return error;
-      })
-    },[]);
+      .catch((error) => {
+        return error;
+      });
+  }, []);
   const myLogout = () => {
     window.localStorage.removeItem("jwttoken");
     window.location.href = "/login";
@@ -28,14 +44,14 @@ export default function Navigation() {
     <>
       <Navbar expand="lg" className="bg-body-tertiary h-100">
         <Container fluid>
-          <Navbar.Brand href="#">
+          <Link to="/">
             <img
               src={`${URL}${logo}`}
               width="100"
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
             />
-          </Navbar.Brand>
+          </Link>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -46,6 +62,7 @@ export default function Navigation() {
               <Link to="/" className="nav-link">
                 Home
               </Link>
+
               {window.localStorage.getItem("jwttoken") === null && (
                 <>
                   <Link to="/login" className="nav-link">
@@ -54,7 +71,6 @@ export default function Navigation() {
                   <Link to="/register" className="nav-link">
                     Register
                   </Link>
-                 
                 </>
               )}
               {window.localStorage.getItem("jwttoken") !== null && (
@@ -67,7 +83,30 @@ export default function Navigation() {
                   >
                     Logout
                   </Nav.Link>
-                  <Link to="/business_register" className="nav-link">Register Business</Link>
+                  <Link to="/business_register" className="nav-link">
+                    Register Business
+                  </Link>
+                  <button
+                    type="submit"
+                    className="btn btn-success p-0"
+                    onClick={(e) => {
+                      directLocation(e);
+                    }}
+                  >
+                    <Link to="" className="nav-link text-white">
+                      Direct Location
+                    </Link>
+                  </button>
+                  <Form className="d-flex">
+                    <Form.Control
+                      type="search"
+                      readOnly
+                      disabled
+                      value={address}
+                      className="ms-2"
+                      aria-label="Search"
+                    />
+                  </Form>
                 </>
               )}
             </Nav>
