@@ -1,17 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { Carousel } from 'react-bootstrap'
+import React, { startTransition, useEffect, useState } from 'react'
+import { Button, Carousel, Form } from 'react-bootstrap'
 import { useSearchParams } from 'react-router-dom';
 import URL from '../helper/url';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export default function Detail() {
   //2.1 Hooks Area
   const [searchParams, setSearchParams] = useSearchParams();
+  const[reviewPayload,setReviewPayload]=useState({
+                                                  "data": {
+                                                    "ratescale":"",
+                                                    "description": "",
+                                                    "business": [
+                                                      17
+                                                    ]
+                                                  }
+  });
    const [busdetail,setBusdetail] =useState([]);
   const [busPhotos,setBusPhotos] =useState([]);
   const[busName,SetBusName]=useState('');
   useEffect(()=>{
-    console.log("hotel_id------>",searchParams.get('hotel_id'));
-    let hotelId = searchParams.get('hotel_id');
+    // const svg = document.querySelector('svg.star');
+    // svg.addEventListener('mouseover', () => console.log('Event: mouseover'));
+
+    console.log("hotel_id------>",searchParams.get('id'));
+    let hotelId = searchParams.get('id');
     fetch(`${URL}/api/businesses?populate=*&filters[id][$eq]=${hotelId}`)
     .then(res=>res.json())
     .then((data)=>{
@@ -31,6 +45,40 @@ export default function Detail() {
         console.log(err);
     }))
   },[])
+    let star = (e)=>{
+      
+      console.log(e.target.classList);
+       let elem = e.target;
+      console.log("ElementRating-->",elem.getAttribute("data-rateno"));
+     
+      setReviewPayload({
+          ...reviewPayload,
+             data:{
+              ...reviewPayload.data,
+              ratescale:parseInt(elem.getAttribute("data-rateno")),
+              
+             
+             }
+      });
+       elem.classList.remove('text-secondary');
+       elem.classList.add('text-warning');
+    }
+
+    let submitReview = (e) => {
+        
+        let desc = document.querySelector('textarea.reivew_desc').value;
+        console.log("descriptiondata",desc);
+        
+        setReviewPayload({
+          ...reviewPayload,   
+          data:{
+           ...reviewPayload.data,
+           description:desc
+          
+          }
+   });
+   console.log("ReviewPayload",reviewPayload);
+    }
   return (
         <>
           <h1 className='text-center'>Detail Page</h1>
@@ -52,6 +100,29 @@ export default function Detail() {
                           
                   
     </Carousel>
+        <Form className='col-6 offset-3'>
+              <h1 className='text-center'>Review Detail</h1>
+              <Form.Group className="mb-3">
+              <Form.Label>
+              <FontAwesomeIcon icon={faStar}className="text-secondary fs-1 jaydip1" data-rateno="1" onMouseEnter={(e)=>{star(e)}}/>
+              <FontAwesomeIcon icon={faStar}className="text-secondary fs-1 jaydip2" data-rateno="2" onMouseEnter={(e)=>{star(e)}}/>
+              <FontAwesomeIcon icon={faStar}className="text-secondary fs-1 jaydip3" data-rateno="3" onMouseEnter={(e)=>{star(e)}}/>
+              <FontAwesomeIcon icon={faStar}className="text-secondary fs-1 jaydip4" data-rateno="4" onMouseEnter={(e)=>{star(e)}}/>
+              <FontAwesomeIcon icon={faStar}className="text-secondary fs-1 jaydip5" data-rateno="5" onMouseEnter={(e)=>{star(e)}}/>
+              </Form.Label>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                  <Form.Label>Tell About Your Experience</Form.Label>
+                  <Form.Control className='reivew_desc' as="textarea" rows={3} />
+               </Form.Group>
+              </Form.Group>
+              <Button variant="primary" type="button" onClick={(e)=>{submitReview(e)}}>
+                Submit
+              </Button>
+              
+            </Form>
+
         </>
   )
 }

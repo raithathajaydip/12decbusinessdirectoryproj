@@ -11,7 +11,9 @@ const Searchfilter = () => {
   //2.1 Hooks area
   const [businesses, SetBusinesses] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams("");
-
+  const [star,setStar] = useState([]);
+              
+              
   //2.2 Function Defination Area
 
   useEffect(() => {
@@ -27,6 +29,10 @@ const Searchfilter = () => {
       .then((data) => {
         console.log("Businessdata",data.data);
         SetBusinesses(data.data);
+        for(let i=1; i< data.data.attributes.star; i++){
+            setStar([...star,<FontAwesomeIcon icon={faStar}className="text-warning"/>])
+        }
+        setStar(data.data.attributes.star);
       })
       .catch((error) => {
         console.log(error);
@@ -40,7 +46,7 @@ const Searchfilter = () => {
         <Col sm={9}>
             {
               businesses.map((cv,idx,arr)=>{
-                return  <Link key={idx} to={"/detail?hotel_id="+cv.id}>
+                return  <Link key={idx} to={"/detail?id="+cv.id}>
                     <Card  className="p-3 mb-3">      
                 <Row>
                   <Col sm={3}>
@@ -63,34 +69,11 @@ const Searchfilter = () => {
                         <FontAwesomeIcon icon="fa-solid fa-star" />
                       </span>
                       <span>
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          className="text-warning"
-                        />
-                      </span>
-                      <span>
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          className="text-warning"
-                        />
-                      </span>
-                      <span>
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          className="text-warning"
-                        />
-                      </span>
-                      <span>
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          className="text-warning"
-                        />
-                      </span>
-                      <span>
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          className="text-secoundary"
-                        />
+                          {
+                            star.map((cv2,idx2,arr2)=>{
+                              return cv2;
+                            })
+                          }
                       </span>
                       <span className="ms-1">4 Rateing</span>
                       <Card.Text>{cv.attributes.desc}</Card.Text>
