@@ -42,3 +42,13 @@ Status Code 403 = Unauthorized/forbidden
 1 Protect the Authenticated page direct access
 	if someone is trying to access the authencted page without  token the we will redirect login page
 
+psudo/Alogos Code
+
+1 onHover get the element
+2 Get All the previous sibling
+3 Run the loop on all previous siblings
+4 remove "text-secondary" on every sibling
+5 Add "text-warning" on every sibling
+6 get the rate value
+
+

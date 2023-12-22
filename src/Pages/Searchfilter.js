@@ -46,7 +46,7 @@ const Searchfilter = () => {
         <Col sm={9}>
             {
               businesses.map((cv,idx,arr)=>{
-                return  <Link key={idx} to={"/detail?id="+cv.id}>
+                return  <Link key={idx} to={"/detail?business_id="+cv.id}>
                     <Card  className="p-3 mb-3">      
                 <Row>
                   <Col sm={3}>

@@ -14,6 +14,7 @@ export default function Login() {
             method: "POST",
             headers: {
               "Content-type": "application/json",
+              
             },
             body: JSON.stringify(payload),
           })
@@ -22,7 +23,7 @@ export default function Login() {
           })
           .then((data)=>{
            
-                console.log(data);
+                console.log("Login data",data);
                 if(data["jwt"] !==undefined){
                         console.log('token',data["jwt"]);
                        // alert("Welcome");
@@ -30,6 +31,7 @@ export default function Login() {
 
                     // Store The Token In Local Storage
                     window.localStorage.setItem('jwttoken',data["jwt"])
+                    window.localStorage.setItem('user_id',data["user"].id)
                 }else{
                     alert("Bheed Kam");
                 }
