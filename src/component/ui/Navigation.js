@@ -9,6 +9,7 @@ export default function Navigation() {
 
   const [logo, setLogo] = useState("");
   const [address, setAddress] = useState("");
+  
   // Function defination Area
   const directLocation = (e) => {
     e.preventDefault();
@@ -20,26 +21,44 @@ export default function Navigation() {
     // setAddress( "Latitude: " + position.coords.latitude +
     // "<br>Longitude: " + position.coords.longitude);
     // setAddress(`Latitue: ${position.coords.latitude} Longitute:${position.coords.longitude}`);
-
+    window.localStorage.setItem('address','Pntc 12,floor');
     setAddress("Pntc 12,floor");
   };
-  useEffect(() => {
-    fetch(`http://localhost:1337/api/website?populate=*`, {})
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Logodata", data.data.attributes.logo.data.attributes.url);
-        setLogo(data.data.attributes.logo.data.attributes.url);
-      })
-      .catch((error) => {
-        return error;
-      });
-  }, []);
-  const myLogout = () => {
-    window.localStorage.removeItem("jwttoken");
-    window.location.href = "/login";
-  };
+        useEffect(() => {
+          fetch(`http://localhost:1337/api/website?populate=*`, {})
+            .then((res) => {
+              return res.json();
+            })
+            .then((data) => {
+              console.log("Logodata", data.data.attributes.logo.data.attributes.url);
+              setLogo(data.data.attributes.logo.data.attributes.url);
+            })
+            .catch((error) => {
+              return error;
+            });
+        }, []);
+        const myLogout = () => {
+            window.localStorage.clear();
+            window.location.href = "/login";
+          };
+
+        const language = (e) => {
+             console.log(e.target.innerHTML);
+            let x = e.target.innerHTML
+            if(x==="English"){
+                  console.log("Hindi")
+                  e.target.innerHTML="Hindi"
+                  window.localStorage.setItem('lang','hi');
+                  window.localStorage.setItem('langtext','Hindi');
+                  window.location.reload();
+            }else{
+              console.log("english");
+              e.target.innerHTML="English"
+              window.localStorage.setItem('lang','en');
+              window.localStorage.setItem('langtext','English');
+              window.location.reload();
+            }       
+        }
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary h-100">
@@ -58,11 +77,10 @@ export default function Navigation() {
               className="me-auto my-2 my-lg-0"
               style={{ maxHeight: "100px" }}
               navbarScroll
-            >
+            >      
               <Link to="/" className="nav-link">
                 Home
               </Link>
-
               {window.localStorage.getItem("jwttoken") === null && (
                 <>
                   <Link to="/login" className="nav-link">
@@ -73,6 +91,10 @@ export default function Navigation() {
                   </Link>
                 </>
               )}
+              {
+                <Nav.Link
+                onClick={(e) => {language(e)}} className="nav-link">{window.localStorage.getItem('langtext')}</Nav.Link>
+              }
               {window.localStorage.getItem("jwttoken") !== null && (
                 <>
                   <Nav.Link
@@ -84,8 +106,9 @@ export default function Navigation() {
                     Logout
                   </Nav.Link>
                   <Link to="/business_register" className="nav-link">
-                    Register Business
+                    RegisterBusiness
                   </Link>
+
                   <button
                     type="submit"
                     className="btn btn-success p-0"
@@ -94,7 +117,7 @@ export default function Navigation() {
                     }}
                   >
                     <Link to="" className="nav-link text-white">
-                      Direct Location
+                       Location
                     </Link>
                   </button>
                   <Form className="d-flex">
@@ -110,7 +133,7 @@ export default function Navigation() {
                 </>
               )}
             </Nav>
-            <Form className="d-flex">
+            <Form className="d-flex ms-2" >
               <Form.Control
                 type="search"
                 placeholder="Search"

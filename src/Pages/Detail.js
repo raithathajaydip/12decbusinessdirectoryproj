@@ -18,10 +18,11 @@ export default function Detail() {
                                                     
                                                   }
   });
-   const [busdetail,setBusdetail] =useState([]);
+  //  const [busdetail,setBusdetail] =useState([]);
   const [busPhotos,setBusPhotos] =useState([]);
   const[busName,SetBusName]=useState('');
   useEffect(()=>{
+    let lang = window.localStorage.getItem("lang");
     // const svg = document.querySelector('svg.star');
     // svg.addEventListener('mouseover', () => console.log('Event: mouseover'));
      
@@ -35,13 +36,13 @@ export default function Detail() {
      
     console.log("business_id------>",searchParams.get('business_id'));
     let businessId = parseInt(searchParams.get('business_id'));
-    fetch(`${URL}/api/businesses?populate=*&filters[id][$eq]=${businessId}`)
+    fetch(`${URL}/api/businesses?locale=${lang}&populate=*&filters[id][$eq]=${businessId}`)
     .then(res=>res.json())
     .then((data)=>{
           console.log("hoteldatabyid",data);
           if(data.data.length > 0){
             SetBusName(data.data[0].attributes.name);
-             setBusdetail(data.data);
+            //  setBusdetail(data.data);
              setBusPhotos(data.data[0].attributes.Photo.data);              
              }
          
@@ -81,6 +82,7 @@ export default function Detail() {
   }
     let star = (e)=>{
     let elem = e.target;
+    console.log("ElementValue",elem);
     var arr = getPreviousSiblings(elem, 'svg.fa-star');
       // console.log("Indexdata",arr.length);
       arr.forEach(element=>{
@@ -101,6 +103,7 @@ export default function Detail() {
     }
     const star2 = (e) => {
       let elem = e.target;
+      console.log("Elemetntvaluedata",elem);
       var allSibs = getAllSiblings(elem, 'svg.fa-star');   
       console.log("AllSiblings",allSibs);
         allSibs.forEach(element=>{
@@ -170,10 +173,7 @@ export default function Detail() {
                             />
                           </Carousel.Item>
                         })
-                      }
-                   
-                          
-                  
+                      }              
     </Carousel>
         <Form className='col-6 offset-3'>
               <h1 className='text-center'>Review Detail</h1>

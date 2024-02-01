@@ -30,6 +30,8 @@ export default function Login() {
                        window.location.href='/business_register';
 
                     // Store The Token In Local Storage
+                    window.localStorage.setItem('lang','en');
+                    window.localStorage.setItem('langtext','English');
                     window.localStorage.setItem('jwttoken',data["jwt"])
                     window.localStorage.setItem('user_id',data["user"].id)
                 }else{

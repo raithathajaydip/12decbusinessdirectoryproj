@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import Detail from "./Pages/Detail";
 import Login from "./Pages/Login";
@@ -9,6 +9,11 @@ import BusinessRegister from "./Pages/BusinessRegister";
 import Searchfilter from "./Pages/Searchfilter";
 
 export default function App() {
+  useEffect(()=>{
+    if(window.localStorage.getItem('lang')=== null){
+        window.localStorage.setItem('lang','en');
+    }
+},[])
   if (window.localStorage.getItem("jwttoken") === null) {
     return (
       <>
